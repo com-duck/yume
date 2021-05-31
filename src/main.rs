@@ -2,9 +2,9 @@ use yume::Token;
 
 fn main() {
     let yume = Token::new(Token {
-        id: "asd",
-        category: "aasd",
-        access: vec!["asd", "asd1", "asd2"],
+        id: "asd".to_string(),
+        category: "aasd".to_string(),
+        access: vec!["asd".to_string(), "asd1".to_string(), "asd2".to_string()],
         ..Default::default()
     });
 

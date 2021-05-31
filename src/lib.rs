@@ -1,21 +1,21 @@
 use serde_json::json;
 
 pub struct Token {
-    pub typ: &'static str,
-    pub sig: &'static str,
-    pub id: &'static str,
-    pub category: &'static str,
-    pub access: Vec<&'static str>,
+    pub typ: String,
+    pub sig: String,
+    pub id: String,
+    pub category: String,
+    pub access: Vec<String>,
 }
 
 impl Default for Token {
     fn default() -> Self {
         Token {
-            typ: "yu-me",
-            sig: "sha256",
-            id: "1",
-            category: "neko",
-            access: vec!["neko-neko"],
+            typ: "yu-me".to_string(),
+            sig: "sha256".to_string(),
+            id: "1".to_string(),
+            category: "neko".to_string(),
+            access: vec!["neko-neko".to_string()],
         }
     }
 }
@@ -34,7 +34,7 @@ impl Token {
         let header1 =
             base64::encode(((chrono::Utc::now().timestamp() << 60) + 250419136931).to_string());
         let header2 = self.header2();
-        let body = self.body(Token::session(self.id, &header1, &number.to_string()));
+        let body = self.body(Token::session(&self.id, &header1, &number.to_string()));
         let tail = sha256::digest(rand::random::<usize>().to_string());
 
         format!("{}.{}.{}.{}", header1, header2, body, tail)
@@ -71,7 +71,7 @@ impl Token {
             .collect::<Vec<_>>();
 
         let body_json = json!({
-            "category": sha256::digest(self.category),
+            "category": sha256::digest(&self.category),
             "access": access,
             "session": sha256::digest(session)
         });
